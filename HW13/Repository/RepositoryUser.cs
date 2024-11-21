@@ -136,15 +136,6 @@ namespace HW13.Repository
 
       
 
-        //public void ReturnBookByAdmin(int i)
-        //{
-        //    var book = appDbContext.books.Where(x => x.Id == i).FirstOrDefault();
-        //    book.UserId = null;
-        //    book.IsBorrow = false;
-        //    book.Barrowdate = null;
-        //    book.EndDateTime = null;
-        //    appDbContext.SaveChanges();
-        //}
     }
 }
 
