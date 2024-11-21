@@ -12,6 +12,9 @@ namespace HW13.Contract.IService
     {
         public Result BorrowBook(int i, int userId);
         public Result ReturnBook(int i);
+        public Result AddDateBorrowBook(int id, int i);
+        public List<GetBookDto> ShowDateBorrowBook();
+       
         public List<GetBookLibraryDto> GetListOfLibraryBook();
         public List<GetBookLibraryDto> GetListOfUserBook(int id);
         public List<GetBookDto> ShowBooks();

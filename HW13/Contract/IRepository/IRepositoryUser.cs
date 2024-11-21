@@ -12,6 +12,9 @@ namespace HW13.Contract.IRepository
     {
         public void BorrowBook(int i, int userId);
         public void ReturnBook(int i);
+        //public void ReturnBookByAdmin(int i);
+        public List<GetBookDto> ShowDateBorrowBook();
+        public void AddDateBorrowBook(int id,int i);
         public List<GetBookLibraryDto> GetListOfLibraryBook();
         public List<GetBookLibraryDto> GetListOfUserBook(int id);
         public List<GetBookDto> ShowBooks();

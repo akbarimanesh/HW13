@@ -12,5 +12,7 @@ namespace HW13.Dto
         public string Title { get; set; }
         public string Author { get; set; }
         public bool IsBorrow { get; set; }
+        public DateTime? Barrowdate { get; set; }
+        public DateTime? EndDateTime { get; set; }
     }
 }

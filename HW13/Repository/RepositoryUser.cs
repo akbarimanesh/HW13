@@ -29,6 +29,9 @@ namespace HW13.Repository
                     Author = x.Author,
                     IsBorrow = x.IsBorrow,
                     UserName = x.User.UserName,
+                    Barrowdate = x.Barrowdate,
+                    EndDateTime = x.EndDateTime,
+
                 }).ToList(); 
         }
 
@@ -43,6 +46,7 @@ namespace HW13.Repository
                     Role = x.Role,
                     NumberBorrowed = x.books.Count()
 
+
                 }).ToList();
 
         }
@@ -51,6 +55,10 @@ namespace HW13.Repository
             var book = appDbContext.books.Where(x => x.Id == i).FirstOrDefault();
             book.IsBorrow = true;
             book.UserId = userId;
+            book.Barrowdate = DateTime.Now;
+           
+           book.EndDateTime = book.Barrowdate.Value.AddDays(30);
+
             appDbContext.SaveChanges();
 
         }
@@ -65,7 +73,9 @@ namespace HW13.Repository
                     Title = x.Title,
                    Author=x.Author,
                    IsBorrow=x.IsBorrow,
-                    
+                    Barrowdate = x.Barrowdate,
+                    EndDateTime = x.EndDateTime,
+
                 }).ToList();
 
         }
@@ -79,6 +89,8 @@ namespace HW13.Repository
                     Title = x.Title,
                     Author = x.Author,
                     IsBorrow = x.IsBorrow,
+                   Barrowdate=x.Barrowdate,
+                   EndDateTime=x.EndDateTime,
                     
                 }).ToList();
         }
@@ -88,9 +100,51 @@ namespace HW13.Repository
             var book = appDbContext.books.Where(x => x.Id == i).FirstOrDefault();
             book.UserId = null;
             book.IsBorrow = false;
+            book.Barrowdate = null;
+            book.EndDateTime = null;
             appDbContext.SaveChanges();
 
         }
+
+        public List<GetBookDto> ShowDateBorrowBook()
+        {
+          
+
+              var books= appDbContext.books.AsNoTracking().Where(t => t.IsBorrow && t.EndDateTime <=DateTime.Now)
+                .Select(t => new GetBookDto()
+                {
+                    Id = t.Id,
+                    Title =t.Title,
+                    Author = t.Author,
+                    IsBorrow = t.IsBorrow,
+                    UserName = t.User.UserName,
+               
+                    Barrowdate =t.Barrowdate.Value,
+                    EndDateTime=t.EndDateTime.Value,
+               }).ToList();
+            return books;
+        }
+
+       
+
+        public void AddDateBorrowBook(int id, int i)
+        {
+            var book = appDbContext.books.Where(x => x.Id == id).FirstOrDefault();
+            book.EndDateTime = book.EndDateTime.Value.AddDays(i);
+            appDbContext.SaveChanges();
+        }
+
+      
+
+        //public void ReturnBookByAdmin(int i)
+        //{
+        //    var book = appDbContext.books.Where(x => x.Id == i).FirstOrDefault();
+        //    book.UserId = null;
+        //    book.IsBorrow = false;
+        //    book.Barrowdate = null;
+        //    book.EndDateTime = null;
+        //    appDbContext.SaveChanges();
+        //}
     }
 }
 

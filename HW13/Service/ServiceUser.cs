@@ -20,6 +20,19 @@ namespace HW13.Service
             repUser = new RepositoryUser();
             repBook = new RepositoryBook();
         }
+
+        public Result AddDateBorrowBook(int id, int i)
+        {
+
+            if (repBook.IsBookExists(id))
+            {
+                repUser.AddDateBorrowBook(id, i);
+                return new Result(true, "The book return date has been extended.");
+            }
+            else
+                return new Result(false, "book is not available..");
+        }
+
         public Result BorrowBook(int i, int userId)
         {
             if(repBook.IsBookExists(i))
@@ -29,6 +42,7 @@ namespace HW13.Service
             }
             else
                 return new Result(false, "book is not available..");
+          
 
         }
 
@@ -58,6 +72,11 @@ namespace HW13.Service
         public List<GetBookDto> ShowBooks()
         {
           return repUser.ShowBooks();
+        }
+
+        public List<GetBookDto> ShowDateBorrowBook()
+        {
+            return repUser.ShowDateBorrowBook();
         }
 
         public List<GetUserDto> ShowUser()

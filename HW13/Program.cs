@@ -138,7 +138,8 @@ void Login()
                         
                         ColoredConsole.WriteLine($"{White("1:Show list of all books")}");
                         ColoredConsole.WriteLine($"{White("2:Show list of all users ")}");
-                        ColoredConsole.WriteLine($"{White("3:Exit ")}");
+                        ColoredConsole.WriteLine($"{White("3:Book date extension ")}");
+                        ColoredConsole.WriteLine($"{White("4:Exit ")}");
 
                         ColoredConsole.WriteLine($"{Yellow("******************************")}");
                         ColoredConsole.Write($"{Blue("please Enter your option :")}");
@@ -152,6 +153,9 @@ void Login()
                                 ShowAllUser();
                                 break;
                             case 3:
+                                DateExtension();
+                                break;
+                            case 4:
                                 Exit();
                                 break;
                           
@@ -161,7 +165,7 @@ void Login()
                         }
 
 
-                    } while (option < 3);
+                    } while (option < 4);
 
                 
                 }
@@ -383,6 +387,87 @@ void ShowAllUser()
         .Configure(o => o.NumberAlignment = Alignment.Right)
         .Write(Format.Minimal);
     Console.ReadKey();
+}
+void DateExtension()
+{
+    try
+    {
+        Console.Clear();
+        ColoredConsole.WriteLine($"{Yellow("**********Book date extension**********")}");
+        ColoredConsole.WriteLine($"{Yellow("*****************************************")}");
+        
+        var book2 = serviceUser.ShowDateBorrowBook();
+        ConsoleTable.From<GetBookDto>(book2)
+            .Configure(o => o.NumberAlignment = Alignment.Right)
+            .Write(Format.Minimal);
+        try
+        {
+            ColoredConsole.Write($"{Blue("Please Enter one option 1:Add a return date 2:ReturnBook  :")}");
+            int opt = int.Parse(Console.ReadLine());
+            if (opt == 1)
+            {
+                ColoredConsole.Write($"{Blue("Please Enter Id :")}");
+                int id = int.Parse(Console.ReadLine());
+                ColoredConsole.Write($"{Blue("How many days do you add? ")}");
+                int i = int.Parse(Console.ReadLine());
+                var result = serviceUser.AddDateBorrowBook(id, i);
+                if (result.IsSuccess)
+                {
+                    ColoredConsole.WriteLine($"{Yellow("******************************")}");
+                    ColoredConsole.WriteLine($"{Green(result.IsMessage)}");
+
+                    Console.ReadKey();
+
+                }
+                else
+                {
+                    ColoredConsole.WriteLine($"{Yellow("******************************")}");
+                    ColoredConsole.WriteLine($"{Red(result.IsMessage)}");
+
+
+                    Console.ReadKey();
+                }
+            }
+            if (opt == 2)
+            {
+                ColoredConsole.Write($"{Blue("Which book do you want? ")}");
+                int id = int.Parse(Console.ReadLine());
+                var result = serviceUser.ReturnBook(id);
+                if (result.IsSuccess)
+                {
+                    ColoredConsole.WriteLine($"{Yellow("******************************")}");
+                    ColoredConsole.WriteLine($"{Green(result.IsMessage)}");
+
+                    Console.ReadKey();
+
+                }
+                else
+                {
+                    ColoredConsole.WriteLine($"{Yellow("******************************")}");
+                    ColoredConsole.WriteLine($"{Red(result.IsMessage)}");
+
+
+                    Console.ReadKey();
+                }
+            }
+            
+
+        }
+        catch
+        {
+            ColoredConsole.WriteLine($"{Red("Enter the information correctly.")}");
+
+            Console.ReadKey();
+        }
+        
+    }
+
+    catch
+    {
+        ColoredConsole.WriteLine($"{Red("Please complete the form.")}");
+
+        Console.ReadKey();
+    }
 }
 void Exit()
 {

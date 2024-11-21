@@ -13,7 +13,8 @@ namespace HW13.Entity
         public string Title { get; set; }
         public string Author { get; set; }
         public bool IsBorrow { get; set; } = false;
-        
+        public DateTime? Barrowdate { get; set; }
+        public DateTime? EndDateTime { get; set; }
         public int? UserId { get; set; }
         public User User { get; set; }
     }
